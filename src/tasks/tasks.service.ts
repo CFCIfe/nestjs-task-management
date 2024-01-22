@@ -4,6 +4,7 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
@@ -29,7 +30,9 @@ export class TasksService {
   //   return tasks;
   // }
   async getTasksById(id: number): Promise<Task> {
-    const found = await this.taskRepository.findOne({ where: { id } });
+    const found = await this.taskRepository.findOneBy({ id: id });
+
+    console.log({ found });
 
     if (!found) {
       throw new NotFoundException(`Task with ID ${id} not found`);
